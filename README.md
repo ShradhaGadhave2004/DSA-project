@@ -1,10 +1,10 @@
-# ImageViewer1
+# Image Viewer Using Linked List
 
 A simple Java Swing application for viewing images from a local directory with previous and next navigation.
 
 ## Description
 
-**ImageViewer1** is a desktop image viewer built using Java Swing. It loads all images from a specified folder (`images` directory) and allows users to browse through them using "Previous" and "Next" buttons. The application uses a custom doubly linked list to maintain image order and display them sequentially.
+**Image Viewer** is a desktop image viewer built using Java Swing. It loads all images from a specified folder (`images` directory) and allows users to browse through them using "Previous" and "Next" buttons. The application uses a custom doubly linked list to maintain image order and display them sequentially.
 
 The project also includes a welcome screen with a start button that launches the image viewer.
 
@@ -59,6 +59,7 @@ Run the main method in the ImageViewer1 class. This will display a welcome windo
 
 ![image](https://github.com/user-attachments/assets/f32fbfae-1a37-4c39-a467-1cb583b70a62)
 
+---
 
 ![Picture3](https://github.com/user-attachments/assets/49365859-ec74-491d-88f7-f7af9086de8e)
 
