@@ -1,177 +1,72 @@
-# DSA-project
-import javax.imageio.ImageIO;
-import javax.swing.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.LinkedList;
+# ImageViewer1
 
-public class ImageViewer1 extends JFrame {
-	private class LinkedListNode {
-        private BufferedImage image;
-        private String description;
-        private LinkedListNode next;
-        private LinkedListNode prev;
+A simple Java Swing application for viewing images from a local directory with previous and next navigation.
 
-        public LinkedListNode(String imagePath) {
-        	next=null;
-            loadImage(imagePath);
-            prev=null;
-        }
+## Description
 
-        public BufferedImage getImage() {
-            return image;
-        }
+**ImageViewer1** is a desktop image viewer built using Java Swing. It loads all images from a specified folder (`images` directory) and allows users to browse through them using "Previous" and "Next" buttons. The application uses a custom doubly linked list to maintain image order and display them sequentially.
 
-        public String getDescription() {
-            return description;
-        }
+The project also includes a welcome screen with a start button that launches the image viewer.
 
-        public LinkedListNode getNext() {
-            return next;
-        }
+---
 
-        public void setNext(LinkedListNode next) {
-            this.next = next;
-        }
+## Features
 
-        public LinkedListNode getPrev() {
-            return prev;
-        }
+- Loads images from the local `images` folder automatically.
+- Displays image name as window title.
+- Navigate images using Previous and Next buttons.
+- Responsive and simple GUI using Java Swing.
+- Welcome screen before launching the viewer.
 
-        public void setPrev(LinkedListNode prev) {
-            this.prev = prev;
-        }
+---
 
-        private void loadImage(String imagePath) {
-            try {
-                image = ImageIO.read(new File(imagePath));
-                description = new File(imagePath).getName();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-    }
-    private LinkedList<String> imagePaths;
-    private LinkedListNode currentImageNode;
-    private JLabel imageLabel;
-    private JButton prevButton;
-    private JButton nextButton;
+## Getting Started
 
-    public ImageViewer1() {
-        setTitle("IMAGE VIEWER");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(800, 600);
-        // Initialize the linked list of image paths
-        imagePaths = new LinkedList<String>();
-        File imageDirectory = new File("images");
-        if (imageDirectory.isDirectory()) {
-            for (File file : imageDirectory.listFiles()) {
-                if (file.isFile()) {
-                    imagePaths.add(file.getAbsolutePath());
-                }
-            }
-        }
-        // Initialize the linked list nodes
-        for (String imagePath : imagePaths) {
-        	LinkedListNode temp=currentImageNode;
-            if (currentImageNode == null) {
-                currentImageNode = new LinkedListNode(imagePath);
-            } else {
-            	LinkedListNode newNode = new LinkedListNode(imagePath);
-            	while(temp.next!=null) {
-                temp=temp.next;
-            	}
-            	temp.setNext(newNode);
-            	newNode.setPrev(temp);
-            }
-        }
-        
-        //Create and add components to the frame
-        imageLabel = new JLabel();
-        getContentPane().add(imageLabel, BorderLayout.CENTER);
-        prevButton = new JButton("Previous");
-        prevButton.addActionListener(new ActionListener() {
-        	@Override
-            public void actionPerformed(ActionEvent e) {
-                showPreviousImage();
-            }
-        });
+### Prerequisites
 
-        nextButton = new JButton("Next");
-        nextButton.addActionListener(new ActionListener() {
-        	@Override
-            public void actionPerformed(ActionEvent e) {
-                showNextImage();
-            }
-        });
+- Java JDK 8 or higher installed on your system.
+- An IDE like IntelliJ IDEA, Eclipse, or the ability to compile and run Java from the command line.
 
-        JPanel buttonPanel = new JPanel();
-        buttonPanel.add(prevButton);
-        buttonPanel.add(nextButton);
-        getContentPane().add(buttonPanel, BorderLayout.SOUTH);
+### Installation
 
-        // Display the first image
-        showCurrentImage();
-    }
+1. Clone the repository or download the source code.
+   ```bash
+   git clone https://github.com/yourusername/ImageViewer1.git
+2. Ensure you have an images folder in the root directory of your project.
 
-    private void showCurrentImage() {
-        if(currentImageNode != null) {
-        	LinkedListNode temp1=currentImageNode;
-            BufferedImage image = temp1.getImage();
-            imageLabel.setIcon(new ImageIcon(image));
-            setTitle("Image Viewer - " + temp1.getDescription());
-        }
-    }
+3. Add image files (.jpg, .png, etc.) inside the images folder.
 
-    private void showNextImage() {
-        if(currentImageNode.next != null) {
-            currentImageNode = currentImageNode.getNext();
-            showCurrentImage();
-        }
-    }
+4. Compile and run the ImageViewer1.java file.
 
-    private void showPreviousImage() {
-        if(currentImageNode.prev != null) {
-        	currentImageNode = currentImageNode.getPrev();
-            showCurrentImage();
-        }
-    }
+### Running the Program
 
-    public static void main(String[] args) {
-    	JFrame j=new JFrame("IMAGE VIEWER");
-    	JPanel p=new JPanel();
-    	p.setLayout(new BoxLayout(p, BoxLayout.PAGE_AXIS));
-    	//p.setLayout(new FlowLayout());
-    	JLabel l=new JLabel("WELCOME TO IMAGE VIEWER");
-    	l.setFont(new Font("Comic Sans MS",Font.BOLD,24));
-    	l.setAlignmentX(Component.CENTER_ALIGNMENT);// Center the label horizontally
-    	p.setBackground(Color.pink);
-    	JButton b=new JButton("START");
-    	b.setFont(new Font("Comic Sans MS",Font.BOLD,18));
-    	b.setAlignmentX(Component.CENTER_ALIGNMENT); // Center the button horizontally
-    	p.add(Box.createVerticalGlue());
-    	p.add(l);
-    	p.add(b);
-    	p.add(Box.createVerticalGlue());
-    	b.addActionListener(new ActionListener() {
-        	@Override
-            public void actionPerformed(ActionEvent e) {
-        		SwingUtilities.invokeLater(() -> {
-                    ImageViewer viewer = new ImageViewer();
-                    viewer.setLocationRelativeTo(null);
-                    viewer.setVisible(true);
-                });
-            }
-        });
-    	p.add(b);
-    	j.add(p);
-    	j.setSize(400,200);
-    	j.setLocationRelativeTo(null);
-    	j.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    	j.setVisible(true);
-    	
-    }
-}
+Run the main method in the ImageViewer1 class. This will display a welcome window with a START button. Click the button to open the image viewer window and browse your images.
+
+### Usage
+
+- Click START to launch the image viewer.
+- Use Previous and Next buttons to navigate through images.
+- The window title displays the current image filename.
+- 
+## Notes
+
+- Supported image formats depend on the Java ImageIO capabilities (commonly JPG, PNG, BMP, GIF).
+- Make sure the images folder contains images before running the application, otherwise no images will be displayed.
+- The application uses a custom doubly linked list internally to manage image nodes.
+
+## Screenshots
+
+
+![image](https://github.com/user-attachments/assets/f32fbfae-1a37-4c39-a467-1cb583b70a62)
+
+
+![Picture3](https://github.com/user-attachments/assets/49365859-ec74-491d-88f7-f7af9086de8e)
+
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+## Author
+
+Shradha Gadhave
