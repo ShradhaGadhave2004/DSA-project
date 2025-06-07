@@ -63,11 +63,6 @@ Run the main method in the ImageViewer1 class. This will display a welcome windo
 
 ![Picture3](https://github.com/user-attachments/assets/49365859-ec74-491d-88f7-f7af9086de8e)
 
-
-## License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
-
 ## Author
 
 Shradha Gadhave
